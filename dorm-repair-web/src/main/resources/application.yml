@@ -1,0 +1,46 @@
+# ============ 服务器配置 ============
+server:
+  port: 8080            # 后端端口号
+
+# ============ Spring 配置 ============
+spring:
+  application:
+    name: dorm-repair
+
+  # ---- 数据库连接（连你本地的 MySQL）----
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/dorm_repair?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: ${DB_PASSWORD:879269}        # 默认本地密码 879269；也可用环境变量 DB_PASSWORD 覆盖
+
+  # ---- 文件上传大小限制 ----
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+# ============ MyBatis 配置 ============
+mybatis:
+  # 指定 XML 映射文件位置（放在 resources/com/dormrepair/mapper/ 下）
+  mapper-locations: classpath:com/dormrepair/mapper/*.xml
+  configuration:
+    # 下划线转驼峰：数据库 real_name ↔ Java realName
+    map-underscore-to-camel-case: true
+    # 把执行的 SQL 打印到控制台（开发调试用）
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+# ============ JWT 配置 ============
+# 签名密钥是「安全敏感信息」，生产环境务必用环境变量注入。HS256 要求密钥至少 32 字节。
+jwt:
+  secret: ${JWT_SECRET:dorm-repair-jwt-secret-key-please-change-me-2026}
+  expire-hours: ${JWT_EXPIRE_HOURS:12}   # 令牌有效期（小时）
+
+# ============ 阿里云 OSS 配置 ============
+# endpoint/bucketName/region 是资源的「地址」，不是机密；
+# AccessKeyId / AccessKeySecret 是机密，通过环境变量 OSS_ACCESS_KEY_ID / OSS_ACCESS_KEY_SECRET 注入。
+aliyun:
+  oss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    bucketName: sky-database
+    region: cn-beijing

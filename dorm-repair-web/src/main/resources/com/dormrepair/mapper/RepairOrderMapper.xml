@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dormrepair.mapper.RepairOrderMapper">
+
+    <!-- 列表：JOIN 出类别名/宿舍名/报修人/维修员，按条件动态过滤 -->
+    <select id="list" resultType="com.dormrepair.pojo.RepairOrder">
+        select o.id, o.order_no, o.user_id, o.category_id, o.dormitory_id, o.title, o.description,
+               o.image_urls, o.worker_id, o.status, o.create_time, o.assign_time, o.finish_time,
+               c.name as category_name,
+               concat(d.building_no, '-', d.room_no) as dormitory_name,
+               u.real_name as user_name,
+               w.real_name as worker_name
+        from repair_order o
+        left join repair_category c on o.category_id = c.id
+        left join dormitory d on o.dormitory_id = d.id
+        left join sys_user u on o.user_id = u.id
+        left join sys_user w on o.worker_id = w.id
+        <where>
+            <if test="userId != null">and o.user_id = #{userId}</if>
+            <if test="workerId != null">and o.worker_id = #{workerId}</if>
+            <if test="status != null">and o.status = #{status}</if>
+            <if test="keyword != null and keyword != ''">and (o.order_no like concat('%', #{keyword}, '%') or o.title like concat('%', #{keyword}, '%'))</if>
+            <if test="categoryId != null">and o.category_id = #{categoryId}</if>
+            <if test="userName != null and userName != ''">and u.real_name like concat('%', #{userName}, '%')</if>
+            <if test="workerName != null and workerName != ''">and w.real_name like concat('%', #{workerName}, '%')</if>
+        </where>
+        order by o.create_time desc
+        limit #{start}, #{pageSize}
+    </select>
+
+    <!-- 总数 -->
+    <select id="count" resultType="java.lang.Long">
+        select count(*)
+        from repair_order o
+        left join repair_category c on o.category_id = c.id
+        left join sys_user u on o.user_id = u.id
+        left join sys_user w on o.worker_id = w.id
+        <where>
+            <if test="userId != null">and o.user_id = #{userId}</if>
+            <if test="workerId != null">and o.worker_id = #{workerId}</if>
+            <if test="status != null">and o.status = #{status}</if>
+            <if test="keyword != null and keyword != ''">and (o.order_no like concat('%', #{keyword}, '%') or o.title like concat('%', #{keyword}, '%'))</if>
+            <if test="categoryId != null">and o.category_id = #{categoryId}</if>
+            <if test="userName != null and userName != ''">and u.real_name like concat('%', #{userName}, '%')</if>
+            <if test="workerName != null and workerName != ''">and w.real_name like concat('%', #{workerName}, '%')</if>
+        </where>
+    </select>
+
+    <!-- 单条详情（JOIN 出名称，进度/评价由 Service 另行组装） -->
+    <select id="selectById" resultType="com.dormrepair.pojo.RepairOrder">
+        select o.id, o.order_no, o.user_id, o.category_id, o.dormitory_id, o.title, o.description,
+               o.image_urls, o.worker_id, o.status, o.create_time, o.assign_time, o.finish_time,
+               c.name as category_name,
+               concat(d.building_no, '-', d.room_no) as dormitory_name,
+               u.real_name as user_name,
+               w.real_name as worker_name
+        from repair_order o
+        left join repair_category c on o.category_id = c.id
+        left join dormitory d on o.dormitory_id = d.id
+        left join sys_user u on o.user_id = u.id
+        left join sys_user w on o.worker_id = w.id
+        where o.id = #{id}
+    </select>
+
+</mapper>

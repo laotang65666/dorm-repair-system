@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dormrepair.mapper.UserMapper">
+
+    <!-- 分页列表：按角色动态过滤，注意不查 password 字段 -->
+    <select id="list" resultType="com.dormrepair.pojo.User">
+        select id, username, real_name, role, gender, phone, dormitory_id, status, create_time
+        from sys_user
+        <where>
+            <if test="role != null and role != ''">and role = #{role}</if>
+        </where>
+        order by create_time desc
+        limit #{start}, #{pageSize}
+    </select>
+
+    <select id="count" resultType="java.lang.Long">
+        select count(*)
+        from sys_user
+        <where>
+            <if test="role != null and role != ''">and role = #{role}</if>
+        </where>
+    </select>
+
+    <!-- 动态修改：哪个字段有值就更新哪个 -->
+    <update id="update">
+        update sys_user
+        <set>
+            <if test="realName != null and realName != ''">real_name = #{realName},</if>
+            <if test="role != null and role != ''">role = #{role},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="dormitoryId != null">dormitory_id = #{dormitoryId},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>
