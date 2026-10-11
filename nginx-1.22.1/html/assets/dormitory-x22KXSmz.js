@@ -1,0 +1,1 @@
+import{t as e}from"./request--8-OHIjX.js";var t=()=>e.get(`/dormitory/list`),n=t=>e.post(`/dormitory/add`,t),r=t=>e.put(`/dormitory`,t),i=t=>e.delete(`/dormitory/${t}`);export{r as i,i as n,t as r,n as t};

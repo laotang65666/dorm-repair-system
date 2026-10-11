@@ -1,0 +1,1 @@
+import{t as e}from"./request--8-OHIjX.js";var t=()=>e.get(`/category/list`),n=t=>e.post(`/category/add`,t),r=t=>e.put(`/category`,t),i=t=>e.delete(`/category/${t}`);export{r as i,i as n,t as r,n as t};

@@ -1,0 +1,1 @@
+import{t as e}from"./request--8-OHIjX.js";var t=t=>e.post(`/login`,t),n=t=>e.post(`/user/register`,t),r=t=>e.get(`/user/page`,{params:t}),i=t=>e.get(`/user/list`,{params:{role:t}}),a=t=>e.post(`/user/add`,t),o=t=>e.put(`/user`,t),s=t=>e.delete(`/user/${t}`);export{t as a,r as i,s as n,n as o,i as r,o as s,a as t};
