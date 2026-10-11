@@ -1,6 +1,6 @@
 # 宿舍报修管理系统
 
-基于 **Spring Boot 4 + MyBatis + MySQL** 的多模块 Maven 后端，仿照参考项目 tlias 的分层架构，实现「学生报修 → 管理员派单 → 维修员处理 → 学生评价」的完整业务流程。
+基于 **Spring Boot 4 + MyBatis + MySQL** 的多模块 Maven 后端，实现「学生报修 → 管理员派单 → 维修员处理 → 学生评价」的完整业务流程。
 
 ## 技术栈
 
@@ -28,7 +28,7 @@
 
 ### 1. 准备数据库
 
-执行 `C:\Users\whatcanisayman\Desktop\dorm-repair-system\sql\schema.sql`，会创建 `dorm_repair` 库和 8 张表，并插入演示账号（admin / worker01 / student01，密码均为 123456）。
+执行 `schema.sql`，会创建 `dorm_repair` 库和 8 张表，并插入演示账号（admin / worker01 / student01，密码均为 123456）。
 
 ### 2. 数据库 / OSS 配置
 
