@@ -1,4 +1,4 @@
-# 宿舍报修管理系统 —— 后端
+# 宿舍报修管理系统
 
 基于 **Spring Boot 4 + MyBatis + MySQL** 的多模块 Maven 后端，仿照参考项目 tlias 的分层架构，实现「学生报修 → 管理员派单 → 维修员处理 → 学生评价」的完整业务流程。
 
@@ -68,3 +68,19 @@ mvn -pl dorm-repair-web -am spring-boot:run
 0 待派单 → 1 已派单 → 2 维修中 → 3 已完成 → 4 已评价
                          └──（仅状态 0 可）5 已取消
 ```
+
+## 前端部署
+
+前端已打包为静态资源，与 Nginx 一起放在本仓库的 `nginx-1.22.1/` 目录，默认端口 **81**（80 端口留给其它项目）。
+
+- `nginx-1.22.1/html/`：前端打包产物（`index.html` + `assets/`）
+- `nginx-1.22.1/conf/nginx.conf`：已配置 Vue Router history 模式回退（`try_files`）+ `/api` 反向代理到后端 8080
+
+### 启动方式
+
+1. 先启动后端（8080）。
+2. 在 `nginx-1.22.1` 目录运行 `nginx.exe`。
+
+浏览器访问 **http://localhost:81/** 即可，演示账号见上文。
+
+> 常用命令（在 `nginx-1.22.1` 目录下）：`nginx.exe -s reload` 重载配置、`nginx.exe -s stop` 停止。
